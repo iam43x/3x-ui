@@ -245,6 +245,7 @@ func (t *Tgbot) Start(i18nFS embed.FS) error {
 			{Command: "help", Description: t.I18nBot("tgbot.commands.helpDesc")},
 			{Command: "status", Description: t.I18nBot("tgbot.commands.statusDesc")},
 			{Command: "id", Description: t.I18nBot("tgbot.commands.idDesc")},
+			{Command: "sub", Description: t.I18nBot("tgbot.commands.subDesc")},
 		},
 	})
 	if err != nil {
@@ -610,6 +611,14 @@ func (t *Tgbot) answerCommand(message *telego.Message, chatId int64, isAdmin boo
 	case "id":
 		onlyMessage = true
 		msg += t.I18nBot("tgbot.commands.getID", "ID=="+strconv.FormatInt(message.From.ID, 10))
+	case "sub":
+		onlyMessage = true
+		link, err := t.getSubLink(chatId)
+		if err != nil {
+			msg += err.Error()
+		} else {
+			msg += t.I18nBot("tgbot.commands.subLink", "Subs=="+link)
+		}
 	case "usage":
 		onlyMessage = true
 		if len(commandArgs) > 0 {
@@ -3684,4 +3693,44 @@ func (t *Tgbot) isSingleWord(text string) bool {
 	text = strings.TrimSpace(text)
 	re := regexp.MustCompile(`\s+`)
 	return re.MatchString(text)
+}
+
+func (t *Tgbot) getSubLink(tgUserID int64) (string, error) {
+	res := ""
+	inbounds, err := t.inboundService.GetAllInbounds()
+	if err != nil {
+		logger.Warning("GetAllInbounds run failed:", err)
+		return res, errors.New(t.I18nBot("tgbot.answers.getInboundsFailed"))
+	}
+	seen := make(map[string]struct{})
+	var subs []string
+	for _, inbound := range inbounds {
+		if inbound.Enable && len(inbound.ClientStats) > 0 {
+			clients, err := t.inboundService.GetClients(inbound)
+			if err != nil {
+				logger.Warning("GetInboundClients run failed:", err)
+				return res, errors.New(t.I18nBot("tgbot.answers.getInboundsFailed"))
+			}
+			for _, client := range clients {
+				if client.TgID == tgUserID {
+					if _, found := seen[client.SubID]; !found {
+						seen[client.SubID] = struct{}{}
+						subs = append(subs, client.SubID)
+					}
+				}
+			}
+		}
+	}
+	if len(subs) == 0 {
+		logger.Warning(fmt.Sprintf("tgUserID=%n not found active subscriptions!", tgUserID))
+		return res, errors.New(t.I18nBot("tgbot.answers.subNotFound"))
+	}
+	link, _ := t.settingService.GetSubURI()
+	for i, sub := range subs {
+		res += t.I18nBot("tgbot.answers.codeBlock", "Content=="+link+sub)
+		if i != len(subs)-1 {
+			res += "\r\n\r\n"
+		}
+	}
+	return res, nil
 }

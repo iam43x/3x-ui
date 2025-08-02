@@ -630,6 +630,8 @@
 "helpDesc" = "مساعدة البوت"
 "statusDesc" = "التحقق من حالة البوت"
 "idDesc" = "عرض معرف Telegram الخاص بك"
+"subDesc" = "إظهار الرابط الخاص بك"
+"subLink" = "🔗 اشتراكاتك:\r\n\r\n{{ .Subs }}\r\n"
 
 [tgbot.messages]
 "cpuThreshold" = "🔴 حمل المعالج {{ .Percent }}% عدى الحد المسموح ({{ .Threshold }}%)"
@@ -762,3 +764,5 @@
 "askToAddUserId" = "مافيش إعدادات ليك!\r\nاطلب من الأدمن يضيف الـ Telegram ChatID الخاص بيك في إعداداتك.\r\n\r\nالـ ChatID بتاعك: <code>{{ .TgUserID }}</code>"
 "chooseClient" = "اختار عميل للإدخال {{ .Inbound }}"
 "chooseInbound" = "اختار الإدخال"
+"subNotFound" = "💔 لم يتم العثور على اشتراك"
+"codeBlock" = "<code>{{ .Content }}</code>"

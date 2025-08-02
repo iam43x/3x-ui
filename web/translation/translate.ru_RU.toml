@@ -630,6 +630,8 @@
 "helpDesc" = "Справка по боту"
 "statusDesc" = "Проверить статус бота"
 "idDesc" = "Показать ваш Telegram ID"
+"subDesc" = "🔔Показать ваши подписки"
+"subLink" = "🔗Выши подписки:\r\n\r\n{{ .Subs }}\r\n"
 
 [tgbot.messages]
 "cpuThreshold" = "🔴 Загрузка процессора составляет {{ .Percent }}%, что превышает пороговое значение {{ .Threshold }}%"
@@ -762,3 +764,5 @@
 "askToAddUserId" = "❌ Ваша конфигурация не найдена!\r\n💭 Пожалуйста, попросите администратора использовать ваш Telegram User ID в конфигурации.\r\n\r\n🆔 Ваш User ID: <code>{{ .TgUserID }}</code>"
 "chooseClient" = "Выберите клиента для входящего подключения {{ .Inbound }}"
 "chooseInbound" = "Выберите входящее подключение"
+"subNotFound" = "💔 Ни одной подписки не найдено"
+"codeBlock" = "<code>{{ .Content }}</code>"

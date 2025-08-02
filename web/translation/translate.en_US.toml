@@ -630,6 +630,8 @@
 "helpDesc" = "Bot help"
 "statusDesc" = "Check bot status"
 "idDesc" = "Show your Telegram ID"
+"subDesc" = "🔔Show your subscribtion"
+"subLink" = "🔗Your subscriptions:\r\n\r\n{{ .Subs }}\r\n"
 
 [tgbot.messages]
 "cpuThreshold" = "🔴 CPU Load {{ .Percent }}% exceeds the threshold of {{ .Threshold }}%"
@@ -762,3 +764,5 @@
 "askToAddUserId" = "Your configuration is not found!\r\nPlease ask your admin to use your Telegram ChatID in your configuration(s).\r\n\r\nYour ChatID: <code>{{ .TgUserID }}</code>"
 "chooseClient" = "Choose a Client for Inbound {{ .Inbound }}"
 "chooseInbound" = "Choose an Inbound"
+"subNotFound" = "💔 No subscriptions found"
+"codeBlock" = "<code>{{ .Content }}</code>"

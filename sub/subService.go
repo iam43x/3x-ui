@@ -317,7 +317,6 @@ func (s *SubService) genVmessLink(inbound *model.Inbound, email string) string {
 }
 
 func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
-	address := inbound.Listen
 	if inbound.Protocol != model.VLESS {
 		return ""
 	}
@@ -507,7 +506,7 @@ func (s *SubService) genVlessLink(inbound *model.Inbound, email string) string {
 		return links
 	}
 
-	link := fmt.Sprintf("vless://%s@%s:%d", uuid, address, port)
+	link := fmt.Sprintf("vless://%s@%s:%d", uuid, inbound.Listen, port)
 	url, _ := url.Parse(link)
 	q := url.Query()
 
